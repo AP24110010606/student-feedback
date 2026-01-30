@@ -4,9 +4,12 @@ const bodyParser = require("body-parser");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
+});
 
 app.post("/submit", (req, res) => {
   const feedback = req.body.feedback.toLowerCase();
@@ -19,12 +22,9 @@ app.post("/submit", (req, res) => {
     sentiment = "Negative 😞";
   }
 
-  console.log("Feedback:", feedback);
-  console.log("Sentiment:", sentiment);
-
   res.send(`Thank you for your feedback! <br> Sentiment: ${sentiment}`);
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
